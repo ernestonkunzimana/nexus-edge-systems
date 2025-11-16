@@ -1,9 +1,9 @@
-import Dashboard from '../components/Dashboard'
+import DashboardAdvanced from '../components/DashboardAdvanced'
 
 export default function Page() {
   return (
     <div className="min-h-screen bg-gray-900 text-white">
-      <Dashboard />
+      <DashboardAdvanced />
     </div>
   )
 }
