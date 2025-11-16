@@ -1,0 +1,10 @@
+module.exports = {
+  content: [
+    './frontend/app/**/*.{js,ts,jsx,tsx,mdx}',
+    './frontend/components/**/*.{js,ts,jsx,tsx,mdx}'
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}
