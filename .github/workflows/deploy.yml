@@ -1,0 +1,13 @@
+name: Deploy (skeleton)
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Placeholder - Deploy step
+        run: echo "Add deployment steps (CD) here"

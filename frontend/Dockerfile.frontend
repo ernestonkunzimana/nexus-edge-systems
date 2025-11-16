@@ -1,0 +1,16 @@
+FROM node:18-alpine AS deps
+WORKDIR /app
+COPY frontend/package.json frontend/package-lock.json ./
+RUN npm ci
+
+COPY frontend ./
+RUN npm run build
+
+FROM node:18-alpine
+WORKDIR /app
+COPY --from=deps /app/.next .next
+COPY --from=deps /app/public ./public
+COPY frontend/package.json ./
+RUN npm ci --production
+CMD ["npm","start"]
+EXPOSE 3000

@@ -1,0 +1,16 @@
+FROM node:18-alpine AS deps
+WORKDIR /app
+COPY frontend/package.json frontend/package-lock.json ./
+RUN npm ci || npm install
+
+COPY frontend ./frontend
+WORKDIR /app/frontend
+RUN npm run build
+
+FROM node:18-alpine
+WORKDIR /app
+COPY --from=deps /app/frontend/.next .next
+COPY --from=deps /app/frontend/public ./public
+COPY frontend/package.json ./
+RUN npm ci --production || npm install --only=production
+CMD ["npm","start"]

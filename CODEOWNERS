@@ -1,0 +1,3 @@
+# Code owners will be requested for PR reviews when files change
+# Syntax: path pattern @github-username
+/* @ernestonkunzimana
