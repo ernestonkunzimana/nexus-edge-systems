@@ -1,0 +1,7 @@
+#!/bin/sh
+# Root-level pre-commit hook to run frontend lint-staged
+# This invokes lint-staged from the frontend directory so developers don't need
+# to run `npx husky install` inside the frontend folder.
+cd "frontend"
+echo "Running lint-staged in frontend..."
+npx lint-staged --relative || true
