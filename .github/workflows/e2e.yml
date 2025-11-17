@@ -1,0 +1,36 @@
+name: E2E tests
+on:
+  workflow_dispatch: {}
+  push:
+    paths:
+      - 'frontend/**'
+  pull_request:
+    paths:
+      - 'frontend/**'
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - name: Install dependencies
+        working-directory: frontend
+        run: |
+          npm ci
+          npx playwright install --with-deps
+      - name: Build and start
+        working-directory: frontend
+        run: |
+          npm run build
+          npm run start &
+          # wait for server to come up
+          npx wait-on http://localhost:3000 -t 30000
+      - name: Run Playwright tests
+        env:
+          DEPLOYMENT_URL: http://localhost:3000
+        run: |
+          npx playwright test frontend/e2e/tests --config=frontend/e2e/playwright.config.ts
