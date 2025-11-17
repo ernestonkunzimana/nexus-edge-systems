@@ -1,5 +1,5 @@
 "use client"
-import React, { useState, useEffect } from 'react'
+import * as React from 'react'
 
 const PROJECTS = [
   { id: 'aetha', name: 'Aetha - Pan-African Cloud', completion: 23 },
@@ -9,9 +9,9 @@ const PROJECTS = [
 ]
 
 export default function Dashboard() {
-  const [now, setNow] = useState(Date.now())
+  const [now, setNow] = React.useState(Date.now())
 
-  useEffect(() => {
+  React.useEffect(() => {
     const id = setInterval(() => setNow(Date.now()), 5000)
     return () => clearInterval(id)
   }, [])

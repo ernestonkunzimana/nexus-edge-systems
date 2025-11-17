@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState } from 'react'
+import * as React from 'react'
 import axios from 'axios'
 import {
   LineChart,
@@ -23,10 +23,10 @@ const MOCK_DATA: MetricPoint[] = Array.from({ length: 12 }).map((_, i) => ({
 }))
 
 export default function DashboardAdvanced() {
-  const [data, setData] = useState<MetricPoint[]>(MOCK_DATA)
-  const [loading, setLoading] = useState(false)
+  const [data, setData] = React.useState<MetricPoint[]>(MOCK_DATA)
+  const [loading, setLoading] = React.useState(false)
 
-  useEffect(() => {
+  React.useEffect(() => {
     let mounted = true
     setLoading(true)
 
