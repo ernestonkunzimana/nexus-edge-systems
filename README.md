@@ -433,3 +433,19 @@ This platform supports:
 
 
 **Built with ❤️ in Kigali, Rwanda 🇷🇼**
+
+## CI & Deployment Notes
+
+- Backend: a GitHub Actions workflow (`.github/workflows/deploy-backend.yml`) builds a Docker image and pushes it to GitHub Container Registry (GHCR). By default the workflow uses `${{ secrets.GITHUB_TOKEN }}`, but if your organization restricts package write permissions you should create a Personal Access Token (PAT) with `packages:write` and `repo` scopes and store it as `GHCR_PAT` in repository secrets.
+
+- Frontend: Vercel is the recommended host (keeps preview deployments for PRs). If you want Actions to trigger Vercel deployments, add `VERCEL_TOKEN` to repository secrets and I can add an Action step that deploys via the Vercel CLI.
+
+- Playwright: E2E runs produce an HTML report in `frontend/playwright-report` and upload it as a CI artifact. To inspect a failing run in Actions, download the `playwright-report` artifact and open `index.html`.
+
+- Sentry: set `SENTRY_DSN` in the deployment environment to enable Sentry reporting for the backend. See `.env.example` for an example variable list.
+
+If you'd like, I can:
+
+- Enable automatic Vercel deploy from Actions (requires `VERCEL_TOKEN`), or
+- Wire the backend deploy to a Kubernetes cluster (requires kubeconfig secret), or
+- Add integration tests that run in Actions against a Postgres service container (already added as a best-effort in `backend-tests.yml`).

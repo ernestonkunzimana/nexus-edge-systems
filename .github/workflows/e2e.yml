@@ -33,10 +33,16 @@ jobs:
         env:
           DEPLOYMENT_URL: http://localhost:3000
         run: |
-          npx playwright test frontend/e2e/tests --config=frontend/e2e/playwright.config.ts
-      - name: Upload Playwright artifacts
+          npx playwright test frontend/e2e/tests --config=frontend/e2e/playwright.config.ts --workers=1
+      - name: Upload Playwright HTML report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report
-          path: frontend/playwright-report || frontend/test-results || playwright-report || ''
+          path: frontend/playwright-report/**
+      - name: Upload Playwright raw results (optional)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-raw
+          path: frontend/test-results/**

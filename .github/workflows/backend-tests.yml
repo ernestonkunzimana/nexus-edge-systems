@@ -10,6 +10,17 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres" --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python
@@ -21,6 +32,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r backend/requirements.txt
           pip install pytest
+      - name: Wait for Postgres
+        run: |
+          for i in {1..20}; do pg_isready -h 127.0.0.1 -p 5432 && exit 0 || sleep 1; done; echo "Postgres ready"
+        env:
+          PGPASSWORD: postgres
       - name: Run backend tests
         run: |
           cd backend
