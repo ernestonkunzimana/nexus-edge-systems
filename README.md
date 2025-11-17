@@ -1,7 +1,7 @@
 ﻿# Nexus Edge Systems - Enterprise Platform
 
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue.svg)](https://www.typescriptlang.org/)
-[![Next.js](https://img.shields.io/badge/Next.js-14.0-black.svg)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue.svg)](https://www.typescriptlang.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-16.0-black.svg)](https://nextjs.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.104-green.svg)](https://fastapi.tiangolo.com/)
 [![License](https://img.shields.io/badge/License-Proprietary-red.svg)]()
 
@@ -173,8 +173,8 @@ nexus-edge-systems/
 ### **Frontend**
 ```typescript
 {
-  "framework": "Next.js 14.0 (App Router)",
-  "language": "TypeScript 5.3",
+  "framework": "Next.js 16 (App Router)",
+  "language": "TypeScript 5.9",
   "styling": "Tailwind CSS 3.4",
   "stateManagement": "Zustand + React Query",
   "charts": "Recharts + D3.js",

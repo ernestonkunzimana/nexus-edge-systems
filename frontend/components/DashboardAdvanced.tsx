@@ -1,16 +1,8 @@
 "use client"
 import * as React from 'react'
-import axios from 'axios'
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-  CartesianGrid,
-} from 'recharts'
 import { Activity } from 'lucide-react'
+import LineWrapper from './charts/LineWrapper'
+import { useMetrics } from '../lib/api/useMetrics'
 
 type MetricPoint = {
   time: string
@@ -23,38 +15,8 @@ const MOCK_DATA: MetricPoint[] = Array.from({ length: 12 }).map((_, i) => ({
 }))
 
 export default function DashboardAdvanced() {
-  const [data, setData] = React.useState<MetricPoint[]>(MOCK_DATA)
-  const [loading, setLoading] = React.useState(false)
-
-  React.useEffect(() => {
-    let mounted = true
-    setLoading(true)
-
-    // Try to fetch real metrics from the backend; fall back to mock data.
-    axios
-      .get('/api/v1/metrics')
-      .then((res) => {
-        if (!mounted) return
-        const d = res.data && Array.isArray(res.data) ? res.data : MOCK_DATA
-        setData(d)
-      })
-      .catch(() => {
-        // keep mock data on error
-      })
-      .finally(() => {
-        if (mounted) setLoading(false)
-      })
-
-    const iv = setInterval(() => {
-      // gently update mock values to keep chart lively
-      setData((prev) => prev.map((p) => ({ ...p, value: Math.max(0, Math.min(100, p.value + (Math.random() - 0.5) * 10)) })))
-    }, 5000)
-
-    return () => {
-      mounted = false
-      clearInterval(iv)
-    }
-  }, [])
+  const { metrics, isLoading } = useMetrics()
+  const data = metrics.length ? metrics : MOCK_DATA
 
   return (
     <div className="min-h-screen">
@@ -77,17 +39,7 @@ export default function DashboardAdvanced() {
 
         <section className="bg-white/5 p-4 rounded">
           <h2 className="text-lg font-medium mb-3">Metric — Last 12 points</h2>
-          <div style={{ width: '100%', height: 300 }} className="text-black/80">
-            <ResponsiveContainer>
-              <LineChart data={data}>
-                <CartesianGrid strokeDasharray="3 3" strokeOpacity={0.06} />
-                <XAxis dataKey="time" stroke="#94a3b8" />
-                <YAxis stroke="#94a3b8" />
-                <Tooltip wrapperStyle={{ background: '#0b1220', borderRadius: 6 }} />
-                <Line type="monotone" dataKey="value" stroke="#06b6d4" strokeWidth={2} dot={{ r: 3 }} />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
+          <LineWrapper data={data} />
           <p className="mt-3 text-sm opacity-80">{loading ? 'Fetching live metrics…' : 'Showing recent metrics (mocked if backend unavailable).'}</p>
         </section>
       </main>
