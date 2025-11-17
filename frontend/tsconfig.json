@@ -6,7 +6,7 @@
       "esnext"
     ],
     "allowJs": true,
-  "allowSyntheticDefaultImports": true,
+    "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
     "strict": false,
     "noEmit": true,
@@ -16,20 +16,27 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "plugins": [
       {
         "name": "next"
       }
-    ]
+    ],
+    "target": "ES2017"
   },
   "include": [
     "next-env.d.ts",
     ".next/types/**/*.ts",
     "**/*.ts",
-    "**/*.tsx"
+    "**/*.tsx",
+    ".next/dev/types/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "postcss.config.js",
+    "tailwind.config.js",
+    "**/*.config.js",
+    "frontend/.next",
+    "**/.next"
   ]
 }

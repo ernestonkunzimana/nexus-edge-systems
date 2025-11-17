@@ -21,7 +21,7 @@ export default function Dashboard() {
       <header className="bg-gradient-to-r from-cyan-600 to-blue-600 p-6">
         <div className="container mx-auto">
           <h1 className="text-3xl font-bold">Nexus Edge Systems</h1>
-          <p className="text-sm opacity-90">Building Africa's Digital Future</p>
+          <p className="text-sm opacity-90">Building Africa19s Digital Future</p>
         </div>
       </header>
 
