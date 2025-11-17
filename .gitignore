@@ -33,6 +33,9 @@ build/
 *.egg-info/
 .eggs/
 
+# Next.js build output
+.next/
+
 # Logs
 *.log
 logs/
