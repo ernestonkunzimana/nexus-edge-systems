@@ -449,3 +449,25 @@ If you'd like, I can:
 - Enable automatic Vercel deploy from Actions (requires `VERCEL_TOKEN`), or
 - Wire the backend deploy to a Kubernetes cluster (requires kubeconfig secret), or
 - Add integration tests that run in Actions against a Postgres service container (already added as a best-effort in `backend-tests.yml`).
+
+## Developer setup: Husky and lint-staged (one-time per machine)
+
+To get pre-commit lint checks working locally (husky + lint-staged), run these steps once on your development machine after cloning:
+
+Windows (PowerShell):
+```powershell
+cd frontend
+npm ci
+npx husky install
+npx husky add .husky/pre-commit "npx lint-staged"
+```
+
+macOS / Linux:
+```bash
+cd frontend
+npm ci
+npx husky install
+npx husky add .husky/pre-commit "npx lint-staged"
+```
+
+I added a root-level `.husky/pre-commit` which runs `lint-staged` inside the `frontend` folder so commits will trigger lint checks even if the per-folder husky install step is not completed, but running the commands above will set up per-folder hooks as well.

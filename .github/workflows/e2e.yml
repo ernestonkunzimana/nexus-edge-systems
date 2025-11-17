@@ -52,3 +52,18 @@ jobs:
         with:
           name: playwright-artifacts
           path: frontend/test-results/**
+      - name: Comment on PR with Playwright run link
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const pr = context.payload.pull_request;
+            if (!pr) return;
+            const runUrl = `${process.env.GITHUB_SERVER_URL}/${context.repo.owner}/${context.repo.repo}/actions/runs/${process.env.GITHUB_RUN_ID}`;
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: pr.number,
+              body: `Playwright E2E finished for this PR. View the workflow run: ${runUrl}\n\nArtifacts (HTML report, screenshots, traces) are attached to the workflow run as downloadable artifacts.`
+            });
