@@ -370,11 +370,11 @@ Backend:
 Node.js >= 18.0.0
 Python >= 3.11
 Docker >= 24.0
-PostgreSQL >= 15.0
-Redis >= 7.0
+PostgreSQL >= 15.0 (if running without Docker)
+Redis >= 7.0 (optional)
 ```
 
-### **Installation**
+### **Installation (Local Development)**
 
 ```bash
 # Clone repository
@@ -395,12 +395,67 @@ pip install -r requirements.txt
 cp .env.example .env
 # Edit .env with your configuration
 
-# Initialize database
-alembic upgrade head
+# Initialize database (local SQLite for dev)
+python create_tables.py
+
+# (Optional) Seed sample data
+python seed_projects.py
 
 # Run development servers
 npm run dev          # Frontend (http://localhost:3000)
+# In another terminal:
 uvicorn app.main:app --reload  # Backend (http://localhost:8000)
+```
+
+### **Installation (Docker Compose - Recommended)**
+
+```bash
+# Clone repository
+git clone https://github.com/nexusedgesystems/platform.git
+cd platform
+
+# Build and start all services
+docker-compose up -d
+
+# Wait for services to be healthy
+docker-compose ps
+
+# Initialize database
+docker-compose exec backend python create_tables.py
+
+# Seed sample projects
+docker-compose exec backend python seed_projects.py
+
+# Access the application
+# Frontend: http://localhost:3000
+# Backend API: http://localhost:8000
+# API Docs: http://localhost:8000/docs
+
+# View logs
+docker-compose logs -f
+
+# Stop services
+docker-compose down
+```
+
+### **Environment Variables**
+
+Create `.env` file in the repository root:
+
+```bash
+# Database (for docker-compose)
+DATABASE_URL=postgresql+asyncpg://nesuser:nespass@postgres:5432/nes_db
+
+# Backend
+SENTRY_DSN=              # Optional: Sentry error tracking
+APP_NAME="Nexus Edge Systems API"
+
+# Frontend
+NEXT_PUBLIC_API_BASE=http://localhost:8000
+
+# Optional: GHCR & Vercel deployment
+GHCR_PAT=               # GitHub Container Registry token
+VERCEL_TOKEN=           # Vercel deployment token
 ```
 
 ## 📚 **Documentation**

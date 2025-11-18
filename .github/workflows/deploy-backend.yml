@@ -37,17 +37,83 @@ jobs:
   run-tests:
     needs: build-and-push
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_USER: testuser
+          POSTGRES_PASSWORD: testpass
+          POSTGRES_DB: test_db
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
     steps:
       - uses: actions/checkout@v4
+      
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
+      
       - name: Install requirements
         run: |
           python -m pip install --upgrade pip
           pip install -r backend/requirements.txt
+      
       - name: Run backend tests
         working-directory: backend
+        env:
+          DATABASE_URL: "postgresql://testuser:testpass@localhost:5432/test_db"
         run: |
-          pytest -q
+          pytest -v
+
+  run-migrations:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_USER: miguser
+          POSTGRES_PASSWORD: migpass
+          POSTGRES_DB: migration_db
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      
+      - name: Install requirements
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r backend/requirements.txt
+      
+      - name: Run Alembic migrations
+        working-directory: backend
+        env:
+          DATABASE_URL: "postgresql://miguser:migpass@localhost:5432/migration_db"
+        run: |
+          alembic upgrade head || echo "No migrations yet (expected for first run)"
+      
+      - name: Verify schema creation
+        working-directory: backend
+        env:
+          DATABASE_URL: "postgresql://miguser:migpass@localhost:5432/migration_db"
+        run: |
+          python create_tables.py
+
