@@ -14,5 +14,12 @@
     "incremental": true
   },
   "include": ["frontend/**/*", "next-env.d.ts"],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules",
+    "frontend/**/tailwind.config.js",
+    "frontend/**/postcss.config.js",
+    "frontend/**/postcss.*.js",
+    "frontend/**/tailwind.*.js",
+    "frontend/**/*.config.js"
+  ]
 }

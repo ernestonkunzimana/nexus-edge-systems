@@ -40,7 +40,7 @@ export default function DashboardAdvanced() {
         <section className="bg-white/5 p-4 rounded">
           <h2 className="text-lg font-medium mb-3">Metric — Last 12 points</h2>
           <LineWrapper data={data} />
-          <p className="mt-3 text-sm opacity-80">{loading ? 'Fetching live metrics…' : 'Showing recent metrics (mocked if backend unavailable).'}</p>
+            <p className="mt-3 text-sm opacity-80">{isLoading ? 'Fetching live metrics…' : 'Showing recent metrics (mocked if backend unavailable).'}</p>
         </section>
       </main>
     </div>
