@@ -1,0 +1,9 @@
+{
+  "typeCheckingMode": "off",
+  "reportMissingImports": false,
+  "exclude": [
+    "frontend/node_modules",
+    "backend/.venv",
+    "**/node_modules"
+  ]
+}
