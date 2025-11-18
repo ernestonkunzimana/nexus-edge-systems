@@ -1,7 +1,7 @@
 fastapi==0.104.0
 uvicorn[standard]==0.22.0
 starlette==0.27.0
-SQLAlchemy==2.0.0
+SQLAlchemy==2.0.44
 aiosqlite
 psycopg2-binary
 alembic
