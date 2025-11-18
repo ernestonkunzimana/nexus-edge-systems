@@ -1,5 +1,8 @@
 {
   "/_global-error/page": "/_global-error",
   "/_not-found/page": "/_not-found",
-  "/page": "/"
+  "/page": "/",
+  "/projects/[id]/page": "/projects/[id]",
+  "/projects/create/page": "/projects/create",
+  "/projects/page": "/projects"
 }
