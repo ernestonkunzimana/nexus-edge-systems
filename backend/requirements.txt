@@ -13,3 +13,6 @@ opentelemetry-api
 opentelemetry-sdk
 opentelemetry-instrumentation-fastapi
 prometheus-fastapi-instrumentator
+passlib[bcrypt]
+python-jose[cryptography]
+psycopg2-binary
