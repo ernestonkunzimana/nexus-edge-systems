@@ -1,0 +1,84 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e6] [cursor=pointer]:
+    - button "Open Next.js Dev Tools" [ref=e7]:
+      - img [ref=e8]
+    - generic [ref=e11]:
+      - button "Open issues overlay" [ref=e12]:
+        - generic [ref=e13]:
+          - generic [ref=e14]: "1"
+          - generic [ref=e15]: "2"
+        - generic [ref=e16]:
+          - text: Issue
+          - generic [ref=e17]: s
+      - button "Collapse issues badge" [ref=e18]:
+        - img [ref=e19]
+  - navigation [ref=e21]:
+    - generic [ref=e23]:
+      - link "NES" [ref=e24] [cursor=pointer]:
+        - /url: /
+        - img [ref=e25]
+        - text: NES
+      - generic [ref=e27]:
+        - link "Dashboard" [ref=e28] [cursor=pointer]:
+          - /url: /
+          - img [ref=e29]
+          - text: Dashboard
+        - link "Projects" [ref=e31] [cursor=pointer]:
+          - /url: /projects
+          - img [ref=e32]
+          - text: Projects
+  - main [ref=e34]:
+    - generic [ref=e37]:
+      - generic [ref=e39]:
+        - generic [ref=e41]:
+          - img [ref=e42]
+          - generic [ref=e44]:
+            - heading "Nexus Dashboard" [level=1] [ref=e45]
+            - paragraph [ref=e46]: Realtime metrics & project overview
+        - main [ref=e47]:
+          - generic [ref=e48]:
+            - generic [ref=e49]:
+              - text: "Live Traffic:"
+              - strong [ref=e50]: ~48
+            - generic [ref=e51]:
+              - text: "Error Rate:"
+              - strong [ref=e52]: 0.8%
+            - generic [ref=e53]:
+              - text: "Uptime:"
+              - strong [ref=e54]: 99.98%
+          - generic [ref=e55]:
+            - heading "Metric — Last 12 points" [level=2] [ref=e56]
+            - img [ref=e60]:
+              - generic [ref=e65]:
+                - generic [ref=e67]: 0:00
+                - generic [ref=e69]: 1:00
+                - generic [ref=e71]: 2:00
+                - generic [ref=e73]: 3:00
+                - generic [ref=e75]: 4:00
+                - generic [ref=e77]: 5:00
+                - generic [ref=e79]: 6:00
+                - generic [ref=e81]: 7:00
+                - generic [ref=e83]: 8:00
+                - generic [ref=e85]: 9:00
+                - generic [ref=e87]: 10:00
+                - generic [ref=e89]: 11:00
+              - generic [ref=e91]:
+                - generic [ref=e93]: "0"
+                - generic [ref=e95]: "20"
+                - generic [ref=e97]: "40"
+                - generic [ref=e99]: "60"
+                - generic [ref=e101]: "80"
+            - paragraph [ref=e117]: Showing recent metrics (mocked if backend unavailable).
+      - generic [ref=e119]:
+        - heading "Recent Projects" [level=2] [ref=e120]
+        - generic [ref=e121]:
+          - paragraph [ref=e122]: No projects yet
+          - link "Create Project" [ref=e123] [cursor=pointer]:
+            - /url: /projects/create
+            - button "Create Project" [ref=e124]
+  - alert [ref=e125]
+  - generic [ref=e126]: "80"
+```

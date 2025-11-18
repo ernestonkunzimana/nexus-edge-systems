@@ -1,0 +1,74 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e4]:
+      - link "NES" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - img [ref=e6]
+        - text: NES
+      - generic [ref=e8]:
+        - link "Dashboard" [ref=e9] [cursor=pointer]:
+          - /url: /
+          - img [ref=e10]
+          - text: Dashboard
+        - link "Projects" [ref=e12] [cursor=pointer]:
+          - /url: /projects
+          - img [ref=e13]
+          - text: Projects
+  - main [ref=e15]:
+    - generic [ref=e17]:
+      - generic [ref=e18]:
+        - generic [ref=e19]:
+          - heading "Projects" [level=1] [ref=e20]
+          - paragraph [ref=e21]: Manage and track your projects
+        - link "Create Project" [ref=e22] [cursor=pointer]:
+          - /url: /projects/create
+          - button "Create Project" [ref=e23]
+      - generic [ref=e24]:
+        - link "Test Project 1 Description 1 Completion 25% View Edit" [ref=e25] [cursor=pointer]:
+          - /url: /projects/1
+          - generic [ref=e26]:
+            - heading "Test Project 1" [level=2] [ref=e27]
+            - paragraph [ref=e28]: Description 1
+            - generic [ref=e30]:
+              - generic [ref=e31]: Completion
+              - generic [ref=e32]: 25%
+            - generic [ref=e35]:
+              - link "View" [ref=e36]:
+                - /url: /projects/1
+                - button "View" [ref=e37]
+              - link "Edit" [ref=e38]:
+                - /url: /projects/1/edit
+                - button "Edit" [ref=e39]
+        - link "Test Project 2 Description 2 Completion 75% View Edit" [ref=e40] [cursor=pointer]:
+          - /url: /projects/2
+          - generic [ref=e41]:
+            - heading "Test Project 2" [level=2] [ref=e42]
+            - paragraph [ref=e43]: Description 2
+            - generic [ref=e45]:
+              - generic [ref=e46]: Completion
+              - generic [ref=e47]: 75%
+            - generic [ref=e50]:
+              - link "View" [ref=e51]:
+                - /url: /projects/2
+                - button "View" [ref=e52]
+              - link "Edit" [ref=e53]:
+                - /url: /projects/2/edit
+                - button "Edit" [ref=e54]
+  - generic [ref=e59] [cursor=pointer]:
+    - button "Open Next.js Dev Tools" [ref=e60]:
+      - img [ref=e61]
+    - generic [ref=e64]:
+      - button "Open issues overlay" [ref=e65]:
+        - generic [ref=e66]:
+          - generic [ref=e67]: "1"
+          - generic [ref=e68]: "2"
+        - generic [ref=e69]:
+          - text: Issue
+          - generic [ref=e70]: s
+      - button "Collapse issues badge" [ref=e71]:
+        - img [ref=e72]
+  - alert [ref=e74]
+```

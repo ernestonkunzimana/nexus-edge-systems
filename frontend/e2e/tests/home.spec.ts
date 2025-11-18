@@ -67,8 +67,8 @@ test.describe('Home / Dashboard (advanced)', () => {
   })
 
   test('basic accessibility checks', async ({ page }) => {
-    // main landmark should exist and be visible
-    await expect(page.locator('main')).toBeVisible()
+    // main landmark should exist and be visible (use getByRole to be specific)
+    await expect(page.getByRole('main')).toBeVisible()
     // grab an accessibility snapshot and ensure root node exists
     const snapshot = await page.accessibility.snapshot()
     expect(snapshot).toBeTruthy()
