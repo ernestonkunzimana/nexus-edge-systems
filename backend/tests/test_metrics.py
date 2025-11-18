@@ -1,16 +1,20 @@
+import pytest
 from fastapi.testclient import TestClient
-from backend.app.main import app
-
-client = TestClient(app)
+from app.main import app
 
 
-def test_health():
+@pytest.fixture
+def client():
+    return TestClient(app)
+
+
+def test_health(client):
     r = client.get("/health")
     assert r.status_code == 200
     assert r.json() == {"status": "ok"}
 
 
-def test_metrics():
+def test_metrics(client):
     r = client.get("/api/v1/metrics")
     assert r.status_code == 200
     data = r.json()
