@@ -1,13 +1,12 @@
-from pydantic import BaseSettings
+import os
+from dataclasses import dataclass
 
 
-class Settings(BaseSettings):
-    app_name: str = "Nexus Edge Systems API"
-    database_url: str = "sqlite+aiosqlite:///./dev.db"
-    sentry_dsn: str = ""
-
-    class Config:
-        env_file = ".env"
+@dataclass
+class Settings:
+    app_name: str = os.getenv("APP_NAME", "Nexus Edge Systems API")
+    database_url: str = os.getenv("DATABASE_URL", "sqlite+aiosqlite:///./dev.db")
+    sentry_dsn: str = os.getenv("SENTRY_DSN", "")
 
 
 settings = Settings()

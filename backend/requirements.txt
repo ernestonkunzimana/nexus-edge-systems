@@ -4,8 +4,17 @@ SQLAlchemy==2.0.0
 psycopg2-binary
 alembic
 pydantic
+fastapi==0.104.0
+uvicorn[standard]==0.22.0
+SQLAlchemy==2.0.0
+aiosqlite
+psycopg2-binary
+alembic
+pydantic
 # Test tools
 pytest
+httpx
+pytest-asyncio
 
 # Observability / monitoring / tracing
 sentry-sdk
@@ -15,4 +24,4 @@ opentelemetry-instrumentation-fastapi
 prometheus-fastapi-instrumentator
 passlib[bcrypt]
 python-jose[cryptography]
-psycopg2-binary
+email-validator
