@@ -16,6 +16,7 @@ interface ProjectFormProps {
     completion?: number;
   };
   onSuccess?: () => void;
+  onCancel?: () => void;
 }
 
 export default function ProjectForm({ projectId, initialData, onSuccess }: ProjectFormProps) {
@@ -143,7 +144,13 @@ export default function ProjectForm({ projectId, initialData, onSuccess }: Proje
         <Button
           type="button"
           variant="outline"
-          onClick={() => router.back()}
+          onClick={() => {
+            if (onCancel) {
+              onCancel()
+            } else {
+              router.back()
+            }
+          }}
           disabled={loading}
           className="flex-1"
         >

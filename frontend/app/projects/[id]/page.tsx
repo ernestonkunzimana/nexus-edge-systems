@@ -177,6 +177,10 @@ export default function ProjectDetailPage() {
                 setEditing(false);
                 window.location.reload();
               }}
+              onCancel={() => {
+                // Return to view mode instead of navigating back
+                setEditing(false)
+              }}
             />
           </div>
         )}

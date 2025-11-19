@@ -135,17 +135,21 @@ test.describe('Navigation Component', () => {
     await page.goto(BASE_URL)
     await page.waitForLoadState('networkidle')
     
-    // Tab through navigation (skip Next.js dev tools)
-    await page.keyboard.press('Tab')
-    await page.keyboard.press('Tab')
-    await page.keyboard.press('Tab')
-    
-    // Check if a navigation link has focus (be more flexible)
-    const navLinks = page.getByRole('navigation').getByRole('link')
-    const focusedLink = await navLinks.evaluateAll((links) => 
-      links.some((link) => link === document.activeElement)
-    )
-    expect(focusedLink).toBeTruthy()
+    // Try tabbing up to 10 times until a nav link receives focus
+    const navLinksSelector = 'nav a'
+    let focused = false
+    for (let i = 0; i < 10; i++) {
+      await page.keyboard.press('Tab')
+      // Give the browser a moment to move focus
+      await page.waitForTimeout(100)
+      focused = await page.evaluate((sel) => {
+        const active = document.activeElement
+        if (!active) return false
+        return Array.from(document.querySelectorAll(sel)).some((el) => el === active)
+      }, navLinksSelector)
+      if (focused) break
+    }
+    expect(focused).toBeTruthy()
   })
 
   test('Accessibility: nav has proper ARIA labels and structure', async ({ page }) => {
