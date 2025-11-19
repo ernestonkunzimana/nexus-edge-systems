@@ -19,7 +19,7 @@ interface ProjectFormProps {
   onCancel?: () => void;
 }
 
-export default function ProjectForm({ projectId, initialData, onSuccess }: ProjectFormProps) {
+export default function ProjectForm({ projectId, initialData, onSuccess, onCancel }: ProjectFormProps) {
   const router = useRouter();
   const [formData, setFormData] = useState({
     name: initialData?.name || '',
