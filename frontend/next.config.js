@@ -7,7 +7,9 @@ const nextConfig = {
   // Explicit turbopack root to silence warnings when there are multiple lockfiles
   // Use the frontend folder as the root for the Next.js app.
   turbopack: {
-    root: './',
+    // Use an absolute path for turbopack.root to avoid the runtime warning.
+    // `__dirname` is the directory of this config file (frontend/).
+    root: require('path').resolve(__dirname),
   },
 
   // In CI we enable strict mode to catch issues earlier
