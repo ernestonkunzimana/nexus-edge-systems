@@ -247,6 +247,18 @@ CDN: CloudFlare
 ```
 ┌─────────────────────────────────────────────────┐
 │ WAF (Web Application Firewall)                  │
+
+## Local Quickstart (recommended)
+
+For an opinionated, repeatable local developer experience we added a quickstart file with one-click bootstrap and test orchestration. From the repository root on Windows PowerShell run:
+
+```powershell
+.\scripts\setup-dev.ps1       # create venv, install backend deps, install frontend deps and Playwright
+.\scripts\start-postgres.ps1  # optional: start local Postgres via docker-compose
+.\scripts\run-all-tests.ps1 -StartDb   # start DB (if requested), run backend tests and Playwright E2E
+```
+
+See `README_QUICKSTART.md` for a shorter quickstart and troubleshooting tips.
 └─────────────────────────────────────────────────┘
                      ↓
 ┌─────────────────────────────────────────────────┐

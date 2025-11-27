@@ -26,25 +26,25 @@ test.describe('Navigation Component', () => {
     await page.goto(BASE_URL)
     await page.waitForLoadState('networkidle')
     
-    // Check logo/brand is visible
-    await expect(page.locator('nav').first()).toBeVisible()
+    // Check logo/brand is visible (use role selector for app navigation)
+    await expect(page.getByRole('navigation').first()).toBeVisible()
     await expect(page.locator('text=Nexus').first()).toBeVisible()
     
-    // Check navigation links are visible on desktop
-    await expect(page.locator('a[href="/"]')).toBeVisible()
-    await expect(page.locator('a[href="/projects"]')).toBeVisible()
+    // Check navigation links are visible on desktop (use nav context to be specific)
+    await expect(page.getByRole('navigation').getByRole('link', { name: 'Dashboard' })).toBeVisible()
+    await expect(page.getByRole('navigation').getByRole('link', { name: 'Projects' })).toBeVisible()
   })
 
   test('Desktop: navigation links are clickable and navigate correctly', async ({ page }) => {
     await page.goto(BASE_URL)
     await page.waitForLoadState('networkidle')
     
-    // Navigate to Projects
-    await page.click('a[href="/projects"]')
+    // Navigate to Projects (be more specific - use first link in navigation)
+    await page.getByRole('navigation').getByRole('link', { name: 'Projects' }).first().click()
     await expect(page).toHaveURL(`${BASE_URL}/projects`)
     
     // Navigate back to home
-    await page.click('a[href="/"]')
+    await page.getByRole('navigation').getByRole('link', { name: 'Dashboard' }).first().click()
     await expect(page).toHaveURL(`${BASE_URL}/`)
   })
 
@@ -65,9 +65,9 @@ test.describe('Navigation Component', () => {
     await page.goto(BASE_URL)
     await page.waitForLoadState('networkidle')
     
-    // Hamburger button should be visible
-    const menuButton = page.locator('button').filter({ hasText: /menu/i }).first()
-    await expect(menuButton.or(page.locator('button:has(svg)'))).toBeVisible()
+    // Hamburger button should be visible (use class selector specific to our nav)
+    const menuButton = page.getByRole('navigation').getByRole('button').first()
+    await expect(menuButton).toBeVisible()
   })
 
   test('Mobile: clicking hamburger opens menu', async ({ page }) => {
@@ -75,16 +75,16 @@ test.describe('Navigation Component', () => {
     await page.goto(BASE_URL)
     await page.waitForLoadState('networkidle')
     
-    // Click the menu button (look for Menu icon)
-    const menuButton = page.locator('button').first()
+    // Click the menu button (be specific to navigation)
+    const menuButton = page.getByRole('navigation').getByRole('button').first()
     await menuButton.click()
     
     // Mobile menu should be visible
     await page.waitForTimeout(300) // Wait for animation
     
-    // Check that navigation links are now visible
-    const mobileLinks = page.locator('a[href="/projects"]')
-    expect(await mobileLinks.count()).toBeGreaterThan(0)
+    // Check that navigation links are now visible in the mobile menu
+    const projectsLink = page.getByRole('navigation').getByRole('link', { name: 'Projects' }).first()
+    await expect(projectsLink).toBeVisible()
   })
 
   test('Mobile: menu closes after clicking a link', async ({ page }) => {
@@ -93,12 +93,12 @@ test.describe('Navigation Component', () => {
     await page.waitForLoadState('networkidle')
     
     // Open menu
-    const menuButton = page.locator('button').first()
+    const menuButton = page.getByRole('navigation').getByRole('button').first()
     await menuButton.click()
     await page.waitForTimeout(300)
     
-    // Click a navigation link
-    await page.click('a[href="/projects"]')
+    // Click a navigation link (use role selector within navigation)
+    await page.getByRole('navigation').getByRole('link', { name: 'Projects' }).first().click()
     
     // Should navigate
     await expect(page).toHaveURL(`${BASE_URL}/projects`)
@@ -135,13 +135,21 @@ test.describe('Navigation Component', () => {
     await page.goto(BASE_URL)
     await page.waitForLoadState('networkidle')
     
-    // Tab through navigation
-    await page.keyboard.press('Tab')
-    await page.keyboard.press('Tab')
-    
-    // One of the nav links should be focused
-    const focusedElement = page.locator(':focus')
-    await expect(focusedElement).toBeVisible()
+    // Try tabbing up to 10 times until a nav link receives focus
+    const navLinksSelector = 'nav a'
+    let focused = false
+    for (let i = 0; i < 10; i++) {
+      await page.keyboard.press('Tab')
+      // Give the browser a moment to move focus
+      await page.waitForTimeout(100)
+      focused = await page.evaluate((sel) => {
+        const active = document.activeElement
+        if (!active) return false
+        return Array.from(document.querySelectorAll(sel)).some((el) => el === active)
+      }, navLinksSelector)
+      if (focused) break
+    }
+    expect(focused).toBeTruthy()
   })
 
   test('Accessibility: nav has proper ARIA labels and structure', async ({ page }) => {
@@ -162,18 +170,18 @@ test.describe('Navigation Component', () => {
     await page.waitForLoadState('networkidle')
     
     // Navigate to projects
-    await page.click('a[href="/projects"]')
+    await page.getByRole('navigation').getByRole('link', { name: 'Projects' }).first().click()
     await expect(page).toHaveURL(`${BASE_URL}/projects`)
     
     // Navigation should still be visible
-    await expect(page.locator('nav').first()).toBeVisible()
-    await expect(page.locator('a[href="/"]')).toBeVisible()
+    await expect(page.getByRole('navigation').first()).toBeVisible()
+    await expect(page.getByRole('navigation').getByRole('link', { name: 'Dashboard' })).toBeVisible()
     
     // Navigate to home
-    await page.click('a[href="/"]')
+    await page.getByRole('navigation').getByRole('link', { name: 'Dashboard' }).first().click()
     await expect(page).toHaveURL(`${BASE_URL}/`)
     
     // Navigation should still be visible
-    await expect(page.locator('nav').first()).toBeVisible()
+    await expect(page.getByRole('navigation').first()).toBeVisible()
   })
 })

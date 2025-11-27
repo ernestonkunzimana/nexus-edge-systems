@@ -37,6 +37,18 @@ jobs:
         working-directory: frontend
         run: npx playwright install --with-deps chromium
 
+      - name: Percy visual snapshots (optional)
+        if: ${{ secrets.PERCY_TOKEN }}
+        working-directory: frontend
+        run: |
+          # Install percy CLI on the fly and run Playwright under Percy.
+          # This step only runs when PERCY_TOKEN secret is set in the repo.
+          npm ci
+          npx percy exec -- npx playwright test --reporter=list
+        env:
+          PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
+          CI: true
+
       - name: Run Playwright tests
         working-directory: frontend
         run: npm run test:e2e

@@ -42,7 +42,6 @@ logs/
 
 # Environment variables / secrets
 .env
-.env.*
 
 # Test / coverage
 .coverage
@@ -68,3 +67,8 @@ htmlcov/
 
 # Example: ignore compiled C files
 # *.o
+
+# Frontend artifacts from local runs and Playwright
+frontend/.next/
+frontend/test-results/
+frontend/playwright-report/

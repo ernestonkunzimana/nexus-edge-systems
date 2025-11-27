@@ -9,7 +9,7 @@ from pathlib import Path
 # Add app to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from httpx import ASGITransport, Client
+from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.pool import StaticPool
 from sqlalchemy.orm import sessionmaker
@@ -60,8 +60,8 @@ def db_session():
 @pytest.fixture
 def client(db_session):
     """FastAPI test client using httpx with ASGI transport."""
-    transport = ASGITransport(app=app)
-    return Client(transport=transport, base_url="http://test")
+    # Use FastAPI TestClient (requests-based) for sync tests against the ASGI app.
+    return TestClient(app)
 
 
 def test_list_projects_empty(client):

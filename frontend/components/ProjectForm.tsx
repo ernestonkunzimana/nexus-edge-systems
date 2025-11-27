@@ -2,9 +2,9 @@
  * Project Create/Edit Form
  * Shared component for creating and editing projects
  */
-'use client';
+ 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
 
@@ -16,9 +16,10 @@ interface ProjectFormProps {
     completion?: number;
   };
   onSuccess?: () => void;
+  onCancel?: () => void;
 }
 
-export default function ProjectForm({ projectId, initialData, onSuccess }: ProjectFormProps) {
+export default function ProjectForm({ projectId, initialData, onSuccess, onCancel }: ProjectFormProps) {
   const router = useRouter();
   const [formData, setFormData] = useState({
     name: initialData?.name || '',
@@ -143,7 +144,13 @@ export default function ProjectForm({ projectId, initialData, onSuccess }: Proje
         <Button
           type="button"
           variant="outline"
-          onClick={() => router.back()}
+          onClick={() => {
+            if (onCancel) {
+              onCancel()
+            } else {
+              router.back()
+            }
+          }}
           disabled={loading}
           className="flex-1"
         >

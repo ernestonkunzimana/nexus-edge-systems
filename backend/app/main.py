@@ -35,16 +35,17 @@ if sentry_sdk and SENTRY_DSN:
     sentry_sdk.init(dsn=SENTRY_DSN, traces_sample_rate=0.1)
 
 # Initialize OpenTelemetry basic console exporter (optional)
-if trace:
+# Console exporter is opt-in via `ENABLE_OTEL_CONSOLE=1` to avoid
+# exporter I/O issues during test shutdown; also skip when running pytest.
+if trace and os.getenv("ENABLE_OTEL_CONSOLE", "0") == "1" and not os.getenv("PYTEST_CURRENT_TEST"):
     resource = Resource.create({"service.name": "nexus-backend"})
     provider = TracerProvider(resource=resource)
     provider.add_span_processor(BatchSpanProcessor(ConsoleSpanExporter()))
     trace.set_tracer_provider(provider)
-    # instrument FastAPI app
+    # instrument FastAPI app (best-effort)
     try:
         FastAPIInstrumentor.instrument_app(app)
     except Exception:
-        # instrumentation is best-effort
         pass
 
 # Prometheus metrics endpoint (best-effort)

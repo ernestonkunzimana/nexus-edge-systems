@@ -53,9 +53,8 @@ test.describe('Home / Dashboard (advanced)', () => {
       // tooltip wrapper has role or a tooltip element — assert that something appears
       await page.waitForTimeout(300) // small delay to allow tooltip animation
       // we can't rely on exact selector for the tooltip across versions; ensure some tooltip text appears
-      const tooltip = page.locator('text=Showing recent metrics').first()
-      // tooltip may not use that text; fallback to checking for tooltip element by path or circle
-      await expect(svg).toBeVisible()
+  // tooltip may not use that text; fallback to checking for tooltip element by path or circle
+  await expect(svg).toBeVisible()
     }
   })
 
@@ -67,8 +66,11 @@ test.describe('Home / Dashboard (advanced)', () => {
   })
 
   test('basic accessibility checks', async ({ page }) => {
-    // main landmark should exist and be visible
-    await expect(page.locator('main')).toBeVisible()
+    // main landmark should exist and be visible. Some pages render multiple <main> elements
+    // (due to small client-side widgets or portals). Assert the first main is visible.
+    const main = page.locator('main').first()
+    await expect(main).toBeVisible()
+
     // grab an accessibility snapshot and ensure root node exists
     const snapshot = await page.accessibility.snapshot()
     expect(snapshot).toBeTruthy()
