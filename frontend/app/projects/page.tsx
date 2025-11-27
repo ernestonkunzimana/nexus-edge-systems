@@ -7,7 +7,6 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
-import { useMetrics } from '@/lib/api/useMetrics';
 
 interface Project {
   id: number;

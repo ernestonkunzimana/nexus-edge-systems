@@ -53,9 +53,8 @@ test.describe('Home / Dashboard (advanced)', () => {
       // tooltip wrapper has role or a tooltip element — assert that something appears
       await page.waitForTimeout(300) // small delay to allow tooltip animation
       // we can't rely on exact selector for the tooltip across versions; ensure some tooltip text appears
-      const tooltip = page.locator('text=Showing recent metrics').first()
-      // tooltip may not use that text; fallback to checking for tooltip element by path or circle
-      await expect(svg).toBeVisible()
+  // tooltip may not use that text; fallback to checking for tooltip element by path or circle
+  await expect(svg).toBeVisible()
     }
   })
 
