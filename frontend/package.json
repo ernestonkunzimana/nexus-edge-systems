@@ -7,7 +7,7 @@
     "start": "next start",
     "lint": "eslint . --ext .ts,.tsx",
     "test:e2e": "playwright test",
-    "prepare": "husky install",
+    "prepare": "node ./scripts/husky-install.js",
     "test": "echo \"No unit tests configured\" && exit 0"
   },
   "dependencies": {
