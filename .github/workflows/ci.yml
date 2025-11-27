@@ -68,6 +68,44 @@ jobs:
               . .venv/bin/activate
               pytest -q -v --junitxml=pytest-report.xml --cov=app --cov-report=xml
 
+            - name: Check coverage threshold
+            working-directory: backend
+            run: |
+              python - <<'PY'
+              import sys
+              from xml.etree import ElementTree as ET
+              try:
+                tree = ET.parse('coverage.xml')
+              except FileNotFoundError:
+                print('coverage.xml not found; failing build')
+                sys.exit(1)
+              root = tree.getroot()
+              # coverage.xml in Cobertura-like format has line-rate attribute on root
+              line_rate = root.get('line-rate') or root.get('lines-covered')
+              if line_rate is None:
+                # try parsing totals
+                totals = root.find('coverage') if root.tag != 'coverage' else root
+              try:
+                # prefer 'line-rate' float
+                rate = float(root.get('line-rate')) * 100.0
+              except Exception:
+                # fallback: compute from counters
+                metrics = root.find('.//counter[@type="LINE"]')
+                if metrics is None:
+                  print('Could not determine coverage percentage; failing')
+                  sys.exit(1)
+                covered = int(metrics.get('covered'))
+                missed = int(metrics.get('missed'))
+                rate = covered / (covered + missed) * 100.0
+              threshold = 80.0
+              print(f'Coverage: {rate:.2f}% (threshold {threshold}%)')
+              if rate < threshold:
+                print('Coverage below threshold; failing CI')
+                sys.exit(1)
+              else:
+                print('Coverage threshold met')
+              PY
+
           - name: Upload pytest report
             if: always()
             uses: actions/upload-artifact@v4
