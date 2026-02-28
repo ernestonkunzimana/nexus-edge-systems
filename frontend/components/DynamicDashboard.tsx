@@ -21,10 +21,10 @@ import { useProjects } from '../lib/api/useProjects'
  * All data comes from API endpoints, not hardcoded.
  */
 export default function DynamicDashboard() {
-  const { services, isLoading: servicesLoading } = useServices()
-  const { devices, isLoading: devicesLoading } = useDevices()
-  const { team, isLoading: teamLoading } = useTeam()
-  const { projects, isLoading: projectsLoading } = useProjects()
+  const { services, isLoading: servicesLoading, isError: servicesError } = useServices()
+  const { devices, isLoading: devicesLoading, isError: devicesError } = useDevices()
+  const { team, isLoading: teamLoading, isError: teamError } = useTeam()
+  const { projects, isLoading: projectsLoading, isError: projectsError } = useProjects()
 
   // Calculate dashboard stats from live data
   const totalServices = services.length
@@ -49,6 +49,19 @@ export default function DynamicDashboard() {
       </header>
 
       <main className="max-w-7xl mx-auto px-4 py-8">
+        {/* API Status Banner */}
+        {(servicesError || devicesError || teamError || projectsError) && (
+          <div className="mb-8 p-4 rounded-lg bg-amber-500/10 border border-amber-500/30 flex gap-3">
+            <AlertCircle className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
+            <div>
+              <p className="text-amber-400 font-semibold text-sm">API Connection Issue</p>
+              <p className="text-amber-300/70 text-xs mt-1">
+                One or more API endpoints are unavailable. Check that the backend server is running at {process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:8000'}
+              </p>
+            </div>
+          </div>
+        )}
+
         {/* Overview Stats Section */}
         <section className="mb-12">
           <div className="mb-4">

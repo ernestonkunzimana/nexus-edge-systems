@@ -5,7 +5,7 @@ import { Mail, MessageCircle, Linkedin, Globe } from 'lucide-react'
 import Image from 'next/image'
 
 export default function TeamGrid() {
-  const { team, isLoading } = useTeam()
+  const { team, isLoading, isError } = useTeam()
 
   if (isLoading) {
     return (
@@ -18,6 +18,21 @@ export default function TeamGrid() {
               <div className="h-4 bg-slate-700 rounded w-1/2"></div>
             </div>
           ))}
+        </div>
+      </section>
+    )
+  }
+
+  if (isError) {
+    return (
+      <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center py-12">
+          <div className="p-6 rounded-lg bg-amber-500/10 border border-amber-500/30 max-w-md mx-auto">
+            <p className="text-amber-400 font-semibold mb-2">Unable to Load Team</p>
+            <p className="text-slate-400 text-sm">
+              The team list is temporarily unavailable. Please try again later.
+            </p>
+          </div>
         </div>
       </section>
     )

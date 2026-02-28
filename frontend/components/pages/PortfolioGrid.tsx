@@ -6,7 +6,7 @@ import Image from 'next/image'
 import { useState } from 'react'
 
 export default function PortfolioGrid() {
-  const { projects, isLoading } = useProjects()
+  const { projects, isLoading, isError } = useProjects()
   const [selectedProject, setSelectedProject] = useState<any>(null)
 
   if (isLoading) {
@@ -20,6 +20,21 @@ export default function PortfolioGrid() {
               <div className="h-4 bg-slate-700 rounded w-full"></div>
             </div>
           ))}
+        </div>
+      </section>
+    )
+  }
+
+  if (isError) {
+    return (
+      <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center py-12">
+          <div className="p-6 rounded-lg bg-amber-500/10 border border-amber-500/30 max-w-md mx-auto">
+            <p className="text-amber-400 font-semibold mb-2">Unable to Load Portfolio</p>
+            <p className="text-slate-400 text-sm">
+              The portfolio is temporarily unavailable. Please ensure the API server is running at {process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:8000'}
+            </p>
+          </div>
         </div>
       </section>
     )

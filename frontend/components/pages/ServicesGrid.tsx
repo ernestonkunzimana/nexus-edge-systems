@@ -14,7 +14,7 @@ const serviceIcons: Record<string, any> = {
 }
 
 export default function ServicesGrid() {
-  const { services, isLoading } = useServices()
+  const { services, isLoading, isError } = useServices()
 
   if (isLoading) {
     return (
@@ -27,6 +27,21 @@ export default function ServicesGrid() {
               <div className="h-4 bg-slate-700 rounded w-full"></div>
             </div>
           ))}
+        </div>
+      </section>
+    )
+  }
+
+  if (isError) {
+    return (
+      <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center py-12">
+          <div className="p-6 rounded-lg bg-amber-500/10 border border-amber-500/30 max-w-md mx-auto">
+            <p className="text-amber-400 font-semibold mb-2">Unable to Load Services</p>
+            <p className="text-slate-400 text-sm">
+              The services list is temporarily unavailable. Please try again later.
+            </p>
+          </div>
         </div>
       </section>
     )
